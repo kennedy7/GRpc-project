@@ -1,0 +1,23 @@
+{
+  "name": "grpc",
+  "version": "1.0.0",
+  "description": "node grpc",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js",
+    "client": "nodemon client.js",
+    "expressServer": "nodemon expressServer.js"
+  },
+  "author": "kennedy",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.12",
+    "@grpc/proto-loader": "^0.7.5",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "hbs": "^4.2.0",
+    "nodemon": "^2.0.21",
+    "uuid": "^9.0.0"
+  }
+}

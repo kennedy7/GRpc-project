@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+message Hotels {
+    string id = 1;
+    string name = 2;
+    string state = 3;
+    string location = 4;
+    string address = 5;
+    string price = 6;
+    bool favorite = 7;
+}
+
+service HotelsService {
+    rpc GetAllHotels (Empty) returns (HotelsList) {}
+    rpc GetHotelsByLocation (HotelsLocation) returns (HotelsList) {}
+    rpc AddFavorite (Hotels) returns (Hotels) {}
+    rpc RemoveFavorite (Hotels) returns (Hotels) {}
+}
+message HotelsLocation {
+    string location = 1;
+}
+
+message HotelId {
+    string id = 1;
+}
+
+message Empty {}
+
+message HotelsList {
+   repeated Hotels hotels = 1;
+}
+
+
+
+
+

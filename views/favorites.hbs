@@ -1,0 +1,190 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MY Favorite Hotels</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .logrocket {
+            background-color: #764abc;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Hotels</h2>
+            <p class="lead">My Favs</p>
+        </div>
+
+        <table class="table" id="hotels_table">
+            <thead>
+                <tr>
+                    {{!-- <th>Customer ID</th> --}}
+                    <th>Hotel Name</th>
+                    <th>State</th>
+                    <th>address</th>
+                    <th>price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each results}}
+                <tr>
+                   
+                    <td>{{ name }}</td>
+                     <td>{{ state }}</td>
+                    <td>{{ address }}</td>
+                    <td>{{ price }}</td>
+                    <td>
+                        <a href="javascript:void(0);" class="btn btn-sm edit logrocket" data-id="{{ id }}"
+                            data-name="{{ name }}" data-state="{{ state }} "data-location="{{ location }}"  data-address="{{ address }}">Remove</a>
+                             <a href="javascript:void(0);" class="btn btn-sm info logrocket" data-id="{{ id }}"
+                            data-name="{{ name }}" data-state="{{ state }}" data-location="{{ location }}"  data-address="{{ address }}" data-price="{{ price }}">More Info</a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="5" class="text-center">No Favorites to display.</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+      
+    </div>
+
+
+
+    <!-- Edit Customer Modal -->
+    <form action="/RemoveFav" method="post">
+        <div class="modal fade" id="editCustomerModal" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Remove from favorite</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                   <div class="modal-body">
+                        Are you sure?
+
+                          <div class="form-group">
+                            <input type="hidden" name="name" class="name" 
+                                required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" name="location" class="location" 
+                                required="required">
+                        </div>
+                       
+                        <div class="form-group">
+                            <input type="hidden" name="address" class="address"
+                                required="required">
+                        </div>
+                         <div class="form-group">
+                            <input type="hidden" name="price" class="price" 
+                                required="required">
+                        </div>
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" class="hotel_id">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn logrocket">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+ <!-- More infos-->
+    <form action="/AddFav" method="post">
+        <div class="modal fade" id="moreinfo" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">More information</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+             
+                   <div class="modal-body">
+                        <div class="form-group">
+                           Hotel Name: <input type="text" name="name" class="name" 
+                                required="required" readonly>
+                        </div>
+                        <div class="form-group">
+                             State:  <input type="text" name="state" class="state" 
+                                required="required" readonly>
+                        </div>
+                        <div class="form-group">
+                           Location: <input type="text" name="location" class="location" 
+                                required="required" readonly>
+                        </div>
+                
+                        <div class="form-group">
+                           Address: <input type="text" name="address" class="address"
+                                required="required" readonly>
+                        </div>
+                         <div class="form-group">
+                           Price: <input type="text" name="price" class="price" 
+                                required="required" readonly>
+                        </div>
+                         
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" class="hotel_id">
+                        <input type="hidden" name="favorite" class="favorite">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#hotels_table').on('click', '.edit', function () {
+                $('#editCustomerModal').modal('show');
+
+                $('.hotel_id').val($(this).data('id'));
+                $('.name').val($(this).data('name'));
+                 $('.state').val($(this).data('state'));
+                $('.location').val($(this).data('location'));
+                $('.address').val($(this).data('address'));
+                 $('.price').val($(this).data('price'));
+            }).on('click', '.remove', function () {
+                $('#removeHotelModal').modal('show');
+
+                $('.hotel_id_removal').val($(this).data('id'));
+            }).on('click', '.info ', function () {
+                $('#moreinfo').modal('show');
+
+                $('.hotel_id').val($(this).data('id'));
+                 $('.favorite').val($(this).data('favorite'));
+                $('.name').val($(this).data('name'));
+                $('.state').val($(this).data('state'));
+                $('.location').val($(this).data('location'));
+                $('.address').val($(this).data('address'));
+                 $('.price').val($(this).data('price'));;
+        });;
+        });
+    </script>
+</body>
+
+</html>
